@@ -985,3 +985,25 @@ textarea {
 .auth-back a:hover {
   text-decoration: underline;
 }
+
+
+.success-text {
+  margin: 0;
+  color: #22c55e;
+  font-size: 14px;
+}
+
+.auth-back {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.auth-back a {
+  color: #ff7a18;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.auth-back a:hover {
+  text-decoration: underline;
+}

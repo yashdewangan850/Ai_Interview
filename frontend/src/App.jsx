@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Interview from "./pages/Interview";
 import Result from "./pages/Result";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
             <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPassword />}
+              />
               <Route
                 path="/"
                 element={
