@@ -118,39 +118,31 @@ async function forgotPassword(req, res, next) {
       });
     }
 
-    // 1. Generate reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
 
-    // 2. Hash token for database
     const tokenHash = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
 
-    // 3. Token expires after 15 minutes
     const expiresAt = new Date(
       Date.now() + 15 * 60 * 1000
     ).toISOString();
 
-    // 4. Save token in database
     await createPasswordResetToken({
       userId: user.id,
       tokenHash,
       expiresAt,
     });
 
-    // 5. Create reset URL
     const resetUrl =
-      `${process.env.FRONTEND_URL || "http://localhost:5173"}` +
-      `/reset-password/${resetToken}`;
+      `${process.env.FRONTEND_URL || "http://localhost:5173"}/reset-password/${resetToken}`;
 
-    // 6. Show URL in backend terminal
     console.log("=================================");
     console.log("PASSWORD RESET URL:");
     console.log(resetUrl);
     console.log("=================================");
 
-    // 7. Send URL to frontend
     return res.json({
       message: "Password reset link generated successfully.",
       resetUrl: resetUrl,
@@ -159,7 +151,6 @@ async function forgotPassword(req, res, next) {
     next(error);
   }
 }
-
 // ===============================
 // RESET PASSWORD
 // ===============================
