@@ -111,45 +111,49 @@ async function forgotPassword(req, res, next) {
 
     const user = await findUserByEmail(email);
 
-    // Don't reveal whether the email exists.
     if (!user) {
       return res.json({
-        message: "Password reset link generated successfully.",
-        resetUrl,
+        message:
+          "If an account exists with this email, a password reset link has been generated.",
       });
     }
 
-    // Generate secure random token
+    // 1. Generate reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
 
-    // Store only the hash of the token
+    // 2. Hash token for database
     const tokenHash = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
 
-    // Token valid for 15 minutes
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+    // 3. Token expires after 15 minutes
+    const expiresAt = new Date(
+      Date.now() + 15 * 60 * 1000
+    ).toISOString();
 
+    // 4. Save token in database
     await createPasswordResetToken({
       userId: user.id,
       tokenHash,
       expiresAt,
     });
 
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    // 5. Create reset URL
+    const resetUrl =
+      `${process.env.FRONTEND_URL || "http://localhost:5173"}` +
+      `/reset-password/${resetToken}`;
 
-    const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
-
-    // Development testing
-    console.log("\n=================================");
+    // 6. Show URL in backend terminal
+    console.log("=================================");
     console.log("PASSWORD RESET URL:");
     console.log(resetUrl);
-    console.log("=================================\n");
+    console.log("=================================");
 
-    res.json({
-      message:
-        "If an account exists with this email, a password reset link has been sent.",
+    // 7. Send URL to frontend
+    return res.json({
+      message: "Password reset link generated successfully.",
+      resetUrl: resetUrl,
     });
   } catch (error) {
     next(error);
