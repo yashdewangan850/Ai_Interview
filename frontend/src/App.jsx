@@ -9,6 +9,7 @@ import DailyQuiz from "./pages/DailyQuiz";
 import Home from "./pages/Home";
 import Interview from "./pages/Interview";
 import Result from "./pages/Result";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <main className="page-shell">
             <Routes>
               <Route path="/auth" element={<Auth />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route
                 path="/"
                 element={
