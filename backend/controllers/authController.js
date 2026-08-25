@@ -25,7 +25,7 @@ function signToken(user) {
       role: user.role,
     },
     process.env.JWT_SECRET || "replace_with_a_long_secret",
-    { expiresIn: "7d" }
+    { expiresIn: "7d" },
   );
 }
 
@@ -113,9 +113,9 @@ async function forgotPassword(req, res, next) {
 
     // Don't reveal whether the email exists.
     if (!user) {
-      return res.json({
-        message:
-          "If an account exists with this email, a password reset link has been sent.",
+      returnres.json({
+        message: "Password reset link generated successfully.",
+        resetUrl,
       });
     }
 
@@ -129,9 +129,7 @@ async function forgotPassword(req, res, next) {
       .digest("hex");
 
     // Token valid for 15 minutes
-    const expiresAt = new Date(
-      Date.now() + 15 * 60 * 1000
-    ).toISOString();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
 
     await createPasswordResetToken({
       userId: user.id,
@@ -139,11 +137,9 @@ async function forgotPassword(req, res, next) {
       expiresAt,
     });
 
-    const frontendUrl =
-      process.env.FRONTEND_URL || "http://localhost:5173";
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 
-    const resetUrl =
-      `${frontendUrl}/reset-password/${resetToken}`;
+    const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
 
     // Development testing
     console.log("\n=================================");
@@ -174,39 +170,27 @@ async function resetPassword(req, res, next) {
     }
 
     if (password.length < 6) {
-      throw createError(
-        "Password must be at least 6 characters long."
-      );
+      throw createError("Password must be at least 6 characters long.");
     }
 
     // Hash received token
-    const tokenHash = crypto
-      .createHash("sha256")
-      .update(token)
-      .digest("hex");
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
 
     // Find valid, non-expired token
     const resetRecord = await findPasswordResetToken(tokenHash);
 
     if (!resetRecord) {
-      throw createError(
-        "Invalid or expired password reset link.",
-        400
-      );
+      throw createError("Invalid or expired password reset link.", 400);
     }
 
     // Update password
-    await updateUserPassword(
-      resetRecord.user_id,
-      password
-    );
+    await updateUserPassword(resetRecord.user_id, password);
 
     // Token can only be used once
     await deletePasswordResetToken(tokenHash);
 
     res.json({
-      message:
-        "Password reset successfully. You can now login.",
+      message: "Password reset successfully. You can now login.",
     });
   } catch (error) {
     next(error);

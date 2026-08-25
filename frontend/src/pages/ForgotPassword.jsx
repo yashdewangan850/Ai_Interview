@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiRequest } from "../lib/api";
 
 function ForgotPassword() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -21,9 +23,15 @@ function ForgotPassword() {
         body: JSON.stringify({ email }),
       });
 
+      // Backend reset URL return karega
+      if (data.resetUrl) {
+        navigate(data.resetUrl.replace(window.location.origin, ""));
+        return;
+      }
+
       setMessage(
         data.message ||
-          "If an account exists with this email, a password reset link has been sent."
+          "Password reset link generated successfully."
       );
     } catch (requestError) {
       setError(requestError.message);
@@ -42,13 +50,15 @@ function ForgotPassword() {
         <h1>Forgot your password?</h1>
 
         <p className="hero-copy">
-          Enter your registered email address and we'll send you a
-          password reset link.
+          Enter your registered email address to reset your password.
         </p>
 
         <form className="form-grid" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="field-label" htmlFor="forgotEmail">
+            <label
+              className="field-label"
+              htmlFor="forgotEmail"
+            >
               Email
             </label>
 
@@ -58,12 +68,18 @@ function ForgotPassword() {
               type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) =>
+                setEmail(event.target.value)
+              }
               required
             />
           </div>
 
-          {error && <p className="error-text">{error}</p>}
+          {error && (
+            <p className="error-text">
+              {error}
+            </p>
+          )}
 
           {message && (
             <p className="success-text">
@@ -76,12 +92,14 @@ function ForgotPassword() {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading ? "Generating..." : "Send Reset Link"}
           </button>
         </form>
 
         <div className="auth-back">
-          <Link to="/auth">← Back to Login</Link>
+          <Link to="/auth">
+            ← Back to Login
+          </Link>
         </div>
       </section>
     </div>
