@@ -23,9 +23,15 @@ function ForgotPassword() {
         body: JSON.stringify({ email }),
       });
 
-      // Backend reset URL return karega
+      // Backend se reset URL mila
       if (data.resetUrl) {
-        navigate(data.resetUrl.replace(window.location.origin, ""));
+        const resetUrl = new URL(data.resetUrl);
+
+        // Direct Reset Password page par jao
+        navigate(
+          `${resetUrl.pathname}${resetUrl.search}${resetUrl.hash}`
+        );
+
         return;
       }
 
@@ -34,7 +40,10 @@ function ForgotPassword() {
           "Password reset link generated successfully."
       );
     } catch (requestError) {
-      setError(requestError.message);
+      setError(
+        requestError.message ||
+          "Unable to generate reset link."
+      );
     } finally {
       setLoading(false);
     }

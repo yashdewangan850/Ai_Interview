@@ -113,9 +113,9 @@ async function forgotPassword(req, res, next) {
 
     if (!user) {
       return res.json({
-        message:
-          "If an account exists with this email, a password reset link has been generated.",
-      });
+  message: "Password reset link generated successfully.",
+  resetUrl: resetUrl,
+});
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
