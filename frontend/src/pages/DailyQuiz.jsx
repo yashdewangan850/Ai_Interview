@@ -33,7 +33,7 @@ function DailyQuiz() {
         setAnswers(
           data.attempt?.answers?.length
             ? data.attempt.answers
-            : Array(data.quiz?.questionCount || 5).fill(null)
+            : Array(data.quiz?.questionCount || 5).fill(null),
         );
       } catch (requestError) {
         setError(requestError.message);
@@ -52,22 +52,16 @@ function DailyQuiz() {
 
     setAnswers((current) =>
       current.map((value, index) =>
-        index === questionIndex ? optionIndex : value
-      )
+        index === questionIndex ? optionIndex : value,
+      ),
     );
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (
-      answers.some(
-        (answer) => answer === null || answer === undefined
-      )
-    ) {
-      setError(
-        "Please select one option for all 5 daily quiz questions."
-      );
+    if (answers.some((answer) => answer === null || answer === undefined)) {
+      setError("Please select one option for all 5 daily quiz questions.");
       return;
     }
 
@@ -121,7 +115,7 @@ function DailyQuiz() {
   if (error && !quiz) {
     return (
       <div className="card quiz-error">
-        <span>⚠️</span>
+        <span></span>
         <p>{error}</p>
       </div>
     );
@@ -129,12 +123,9 @@ function DailyQuiz() {
 
   return (
     <div className="content-stack daily-quiz-page">
-
       {/* HERO */}
       <section className="hero hero--analytics daily-quiz-hero">
-
         <div className="hero-panel">
-
           <div className="eyebrow eyebrow--accent quiz-eyebrow">
             Daily Challenge
           </div>
@@ -142,45 +133,30 @@ function DailyQuiz() {
           <h1>Daily Quiz</h1>
 
           <p className="hero-copy">
-            A fresh 5-question research-focused quiz is generated
-            once per day with four options per question. The
-            questions now prefer newer AI, systems, privacy,
-            agent, and advanced computing topics instead of only
-            basic fundamentals.
+            A fresh 5-question research-focused quiz is generated once per day
+            with four options per question. The questions now prefer newer AI,
+            systems, privacy, agent, and advanced computing topics instead of
+            only basic fundamentals.
           </p>
 
           <div className="hero-actions quiz-hero-actions">
+            <span className="pill">{formatQuizDate(quiz?.quizDate)}</span>
 
-            <span className="pill">
-              {formatQuizDate(quiz?.quizDate)}
-            </span>
-
-            <span className="pill">
-              {quiz?.questionCount || 5} questions
-            </span>
+            <span className="pill">{quiz?.questionCount || 5} questions</span>
 
             {attempt && (
               <span className="score-chip score-chip--active">
                 {attempt.score}/100
               </span>
             )}
-
           </div>
         </div>
 
         <div className="hero-side">
-
           <article className="spotlight-card spotlight-card--primary quiz-spotlight">
+            <span className="spotlight-label">Attempt Status</span>
 
-            <span className="spotlight-label">
-              Attempt Status
-            </span>
-
-            <strong>
-              {attempt
-                ? "Completed"
-                : "Not attempted yet"}
-            </strong>
+            <strong>{attempt ? "Completed" : "Not attempted yet"}</strong>
 
             <p>
               {attempt
@@ -189,17 +165,11 @@ function DailyQuiz() {
                   } correctly.`
                 : "Complete today's quiz to store the score in your dashboard."}
             </p>
-
           </article>
-
         </div>
       </section>
 
-      {error && (
-        <p className="error-text quiz-error-message">
-          {error}
-        </p>
-      )}
+      {error && <p className="error-text quiz-error-message">{error}</p>}
 
       {/* =========================================
           COMPLETED QUIZ
@@ -207,35 +177,23 @@ function DailyQuiz() {
 
       {attempt ? (
         <>
-
           {/* SCORE METRICS */}
 
           <section className="metrics-band quiz-metrics">
-
             <article className="metric-card metric-card--featured quiz-metric">
-              <span className="metric-label">
-                Score
-              </span>
+              <span className="metric-label">Score</span>
 
-              <span className="metric-value">
-                {attempt.score}
-              </span>
+              <span className="metric-value">{attempt.score}</span>
             </article>
 
             <article className="metric-card quiz-metric">
-              <span className="metric-label">
-                Correct Answers
-              </span>
+              <span className="metric-label">Correct Answers</span>
 
-              <span className="metric-value">
-                {attempt.correctCount}
-              </span>
+              <span className="metric-value">{attempt.correctCount}</span>
             </article>
 
             <article className="metric-card quiz-metric">
-              <span className="metric-label">
-                Status
-              </span>
+              <span className="metric-label">Status</span>
 
               <span className="metric-value metric-value--small">
                 {scoreLabel}
@@ -243,46 +201,31 @@ function DailyQuiz() {
             </article>
 
             <article className="metric-card quiz-metric">
-              <span className="metric-label">
-                Saved To
-              </span>
+              <span className="metric-label">Saved To</span>
 
               <span className="metric-value metric-value--small">
                 Dashboard
               </span>
             </article>
-
           </section>
 
           {/* REVIEW */}
 
           <section className="card quiz-review-card">
-
             <div className="section-heading">
-
               <div>
-                <span className="eyebrow eyebrow--accent">
-                  Review
-                </span>
+                <span className="eyebrow eyebrow--accent">Review</span>
 
-                <h2>
-                  Today's quiz breakdown
-                </h2>
+                <h2>Today's quiz breakdown</h2>
               </div>
 
-              <Link
-                className="secondary-button"
-                to="/"
-              >
+              <Link className="secondary-button" to="/">
                 Back to Dashboard
               </Link>
-
             </div>
 
             <div className="quiz-list">
-
               {attempt.review.map((item, index) => (
-
                 <article
                   className="quiz-question quiz-question--review quiz-review-item"
                   key={item.id}
@@ -290,206 +233,122 @@ function DailyQuiz() {
                     "--quiz-delay": `${index * 100}ms`,
                   }}
                 >
-
                   <div className="review-head">
-
                     <h3>
-                      Question {item.id}:{" "}
-                      {item.question}
+                      Question {item.id}: {item.question}
                     </h3>
 
                     <span
                       className={`score-chip ${
-                        item.isCorrect
-                          ? "score-chip--active"
-                          : ""
+                        item.isCorrect ? "score-chip--active" : ""
                       }`}
                     >
-                      {item.isCorrect
-                        ? "Correct"
-                        : "Incorrect"}
+                      {item.isCorrect ? "Correct" : "Incorrect"}
                     </span>
-
                   </div>
 
                   <div className="option-grid">
+                    {item.options.map((option, optionIndex) => {
+                      const isSelected = item.selectedOption === optionIndex;
 
-                    {item.options.map(
-                      (option, optionIndex) => {
+                      const isCorrect = item.correctOption === optionIndex;
 
-                        const isSelected =
-                          item.selectedOption ===
-                          optionIndex;
+                      const className = [
+                        "option-card",
+                        isSelected ? "option-card--selected" : "",
+                        isCorrect ? "option-card--correct" : "",
+                        isSelected && !isCorrect
+                          ? "option-card--incorrect"
+                          : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ");
 
-                        const isCorrect =
-                          item.correctOption ===
-                          optionIndex;
+                      return (
+                        <div
+                          className={`${className} quiz-option-animated`}
+                          key={option}
+                        >
+                          <span>{String.fromCharCode(65 + optionIndex)}</span>
 
-                        const className = [
-                          "option-card",
-                          isSelected
-                            ? "option-card--selected"
-                            : "",
-                          isCorrect
-                            ? "option-card--correct"
-                            : "",
-                          isSelected && !isCorrect
-                            ? "option-card--incorrect"
-                            : "",
-                        ]
-                          .filter(Boolean)
-                          .join(" ");
-
-                        return (
-                          <div
-                            className={`${className} quiz-option-animated`}
-                            key={option}
-                          >
-                            <span>
-                              {String.fromCharCode(
-                                65 + optionIndex
-                              )}
-                            </span>
-
-                            <strong>
-                              {option}
-                            </strong>
-                          </div>
-                        );
-                      }
-                    )}
-
+                          <strong>{option}</strong>
+                        </div>
+                      );
+                    })}
                   </div>
 
-                  <p className="muted quiz-explanation">
-                    {item.explanation}
-                  </p>
-
+                  <p className="muted quiz-explanation">{item.explanation}</p>
                 </article>
-
               ))}
-
             </div>
-
           </section>
-
         </>
-
       ) : (
-
         /* =========================================
            QUIZ FORM
         ========================================= */
 
         <section className="card quiz-form-card">
-
           <div className="section-heading">
-
             <div>
-              <span className="eyebrow eyebrow--accent">
-                Attempt Quiz
-              </span>
+              <span className="eyebrow eyebrow--accent">Attempt Quiz</span>
 
-              <h2>
-                Answer all 5 questions
-              </h2>
+              <h2>Answer all 5 questions</h2>
             </div>
-
           </div>
 
-          <form
-            className="quiz-list"
-            onSubmit={handleSubmit}
-          >
+          <form className="quiz-list" onSubmit={handleSubmit}>
+            {quiz?.questions?.map((item, questionIndex) => (
+              <article
+                className="quiz-question quiz-question-animated"
+                key={item.id}
+                style={{
+                  "--quiz-delay": `${questionIndex * 100}ms`,
+                }}
+              >
+                <h3>
+                  Question {item.id}: {item.question}
+                </h3>
 
-            {quiz?.questions?.map(
-              (item, questionIndex) => (
+                <div className="option-grid">
+                  {item.options.map((option, optionIndex) => {
+                    const isActive = answers[questionIndex] === optionIndex;
 
-                <article
-                  className="quiz-question quiz-question-animated"
-                  key={item.id}
-                  style={{
-                    "--quiz-delay": `${questionIndex * 100}ms`,
-                  }}
-                >
+                    return (
+                      <button
+                        className={`option-card quiz-option-button ${
+                          isActive ? "option-card--selected" : ""
+                        }`}
+                        type="button"
+                        key={`${item.id}-${optionIndex}`}
+                        onClick={() => chooseOption(questionIndex, optionIndex)}
+                      >
+                        <span>{String.fromCharCode(65 + optionIndex)}</span>
 
-                  <h3>
-                    Question {item.id}:{" "}
-                    {item.question}
-                  </h3>
-
-                  <div className="option-grid">
-
-                    {item.options.map(
-                      (option, optionIndex) => {
-
-                        const isActive =
-                          answers[questionIndex] ===
-                          optionIndex;
-
-                        return (
-                          <button
-                            className={`option-card quiz-option-button ${
-                              isActive
-                                ? "option-card--selected"
-                                : ""
-                            }`}
-                            type="button"
-                            key={`${item.id}-${optionIndex}`}
-                            onClick={() =>
-                              chooseOption(
-                                questionIndex,
-                                optionIndex
-                              )
-                            }
-                          >
-                            <span>
-                              {String.fromCharCode(
-                                65 + optionIndex
-                              )}
-                            </span>
-
-                            <strong>
-                              {option}
-                            </strong>
-                          </button>
-                        );
-                      }
-                    )}
-
-                  </div>
-
-                </article>
-
-              )
-            )}
+                        <strong>{option}</strong>
+                      </button>
+                    );
+                  })}
+                </div>
+              </article>
+            ))}
 
             <div className="button-row quiz-submit-row">
-
               <button
                 className="primary-button quiz-submit-button"
                 type="submit"
                 disabled={submitting}
               >
-                {submitting
-                  ? "Submitting..."
-                  : "Submit Daily Quiz"}
+                {submitting ? "Submitting..." : "Submit Daily Quiz"}
               </button>
 
-              <Link
-                className="secondary-button"
-                to="/"
-              >
+              <Link className="secondary-button" to="/">
                 Back to Dashboard
               </Link>
-
             </div>
-
           </form>
-
         </section>
       )}
-
     </div>
   );
 }

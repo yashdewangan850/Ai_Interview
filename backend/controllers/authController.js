@@ -102,9 +102,6 @@ function me(req, res) {
   res.json({ user: req.user });
 }
 
-// ==========================================
-// FORGOT PASSWORD
-// ==========================================
 
 async function forgotPassword(req, res, next) {
   try {
@@ -142,7 +139,7 @@ async function forgotPassword(req, res, next) {
     });
 
     const frontendUrl =
-      process.env.FRONTEND_URL || "http://localhost:5173";
+      process.env.FRONTEND_URL || "https://ai-interview-1-zjkp.onrender.com";
 
     const resetUrl =
       `${frontendUrl}/reset-password/${resetToken}`;

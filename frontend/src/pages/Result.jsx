@@ -8,13 +8,9 @@ function Result() {
   const { id } = useParams();
   const location = useLocation();
 
-  const [interview, setInterview] = useState(
-    location.state?.interview || null
-  );
+  const [interview, setInterview] = useState(location.state?.interview || null);
 
-  const [loading, setLoading] = useState(
-    !location.state?.interview
-  );
+  const [loading, setLoading] = useState(!location.state?.interview);
 
   const [error, setError] = useState("");
 
@@ -62,14 +58,9 @@ function Result() {
 
         <h2>Interview not submitted</h2>
 
-        <p className="muted">
-          This interview has not been submitted yet.
-        </p>
+        <p className="muted">This interview has not been submitted yet.</p>
 
-        <Link
-          className="primary-button"
-          to={`/interview/${id}`}
-        >
+        <Link className="primary-button" to={`/interview/${id}`}>
           Continue Interview →
         </Link>
       </div>
@@ -78,50 +69,40 @@ function Result() {
 
   const { evaluation } = interview;
 
-  const generationWarning =
-    interview.metadata?.generation?.warning;
+  const generationWarning = interview.metadata?.generation?.warning;
 
-  const evaluationWarning =
-    evaluation.meta?.warning;
+  const evaluationWarning = evaluation.meta?.warning;
 
-  const isEstimatedScore =
-    evaluation.meta?.source === "fallback";
+  const isEstimatedScore = evaluation.meta?.source === "fallback";
 
   const score = Number(evaluation.score || 0);
 
   return (
     <div className="content-stack result-page-animated">
-
       {/* =========================================
           RESULT HERO
       ========================================= */}
 
       <section className="card result-hero result-hero-animated">
-
         <div className="result-title">
           <span className="eyebrow">Interview Result</span>
 
           <h1>{interview.topic}</h1>
 
           <p className="muted">
-            Category: {interview.category} · Difficulty:{" "}
-            {interview.difficulty} ·{" "}
-            {interview.questionCount} questions ·{" "}
-            {interview.timerMinutes} min timer
+            Category: {interview.category} · Difficulty: {interview.difficulty}{" "}
+            · {interview.questionCount} questions · {interview.timerMinutes} min
+            timer
           </p>
         </div>
 
         {/* SCORE */}
         <div className="score-panel score-panel-animated">
           <div className="score-ring">
-            <span className="score-value">
-              {score}
-            </span>
+            <span className="score-value">{score}</span>
 
             <span className="score-label">
-              {isEstimatedScore
-                ? "estimated"
-                : "out of 100"}
+              {isEstimatedScore ? "estimated" : "out of 100"}
             </span>
           </div>
         </div>
@@ -134,15 +115,11 @@ function Result() {
       {(generationWarning || evaluationWarning) && (
         <section className="card warning-card result-warning">
           {generationWarning && (
-            <p className="warning-text">
-              ⚠️ {generationWarning}
-            </p>
+            <p className="warning-text">⚠️ {generationWarning}</p>
           )}
 
           {evaluationWarning && (
-            <p className="warning-text">
-              ⚠️ {evaluationWarning}
-            </p>
+            <p className="warning-text">⚠️ {evaluationWarning}</p>
           )}
         </section>
       )}
@@ -152,16 +129,13 @@ function Result() {
       ========================================= */}
 
       <section className="result-grid">
-
         {/* FEEDBACK */}
         <article className="card result-info-card result-card-animated">
           <div className="result-card-icon">💬</div>
 
           <h2>Feedback</h2>
 
-          <p className="feedback-copy">
-            {evaluation.feedback}
-          </p>
+          <p className="feedback-copy">{evaluation.feedback}</p>
 
           <div className="panel-actions">
             <SpeakButton
@@ -210,7 +184,6 @@ function Result() {
             ))}
           </ul>
         </article>
-
       </section>
 
       {/* =========================================
@@ -218,141 +191,93 @@ function Result() {
       ========================================= */}
 
       <section className="card answer-review-card result-card-animated">
-
         <div className="section-header">
-
           <div>
-            <span className="eyebrow">
-              Answer Review
-            </span>
+            <span className="eyebrow">Answer Review</span>
 
-            <h2>
-              Questions and responses
-            </h2>
+            <h2>Questions and responses</h2>
           </div>
 
           <div className="result-actions">
-
             <button
               className="primary-button result-action-button"
               type="button"
-              onClick={() =>
-                downloadInterviewPdf(interview)
-              }
+              onClick={() => downloadInterviewPdf(interview)}
             >
               📄 Download PDF
             </button>
 
-            <Link
-              className="secondary-button result-action-button"
-              to="/"
-            >
+            <Link className="secondary-button result-action-button" to="/">
               Start Another
             </Link>
-
           </div>
         </div>
 
         {/* QUESTIONS */}
         <div className="review-list">
+          {interview.questions.map((question, index) => (
+            <article
+              className="review-item review-item-animated"
+              key={question}
+            >
+              {/* QUESTION */}
+              <div className="review-head">
+                <div className="question-number">Q{index + 1}</div>
 
-          {interview.questions.map(
-            (question, index) => (
+                <h3>{question}</h3>
 
-              <article
-                className="review-item review-item-animated"
-                key={question}
-              >
+                <SpeakButton
+                  text={`Question ${index + 1}. ${question}`}
+                  label="Read Question"
+                  compact
+                />
+              </div>
 
-                {/* QUESTION */}
-                <div className="review-head">
+              {/* USER ANSWER */}
+              <div className="answer-panel result-answer-panel">
+                <div className="answer-panel-heading">
+                  <span className="answer-label">Your answer</span>
 
-                  <div className="question-number">
-                    Q{index + 1}
-                  </div>
+                  <span className="answer-status">✓ Submitted</span>
+                </div>
 
-                  <h3>{question}</h3>
+                <p>{interview.answers[index] || "No answer provided."}</p>
 
+                <div className="panel-actions">
                   <SpeakButton
-                    text={`Question ${
-                      index + 1
-                    }. ${question}`}
-                    label="Read Question"
+                    text={interview.answers[index] || "No answer provided."}
+                    label="Read Your Answer"
                     compact
                   />
+                </div>
+              </div>
 
+              {/* AI REFERENCE */}
+              <div className="answer-panel answer-panel--reference result-reference-panel">
+                <div className="answer-panel-heading">
+                  <span className="answer-label">AI reference answer</span>
+
+                  <span className="ai-label">✨ AI</span>
                 </div>
 
-                {/* USER ANSWER */}
-                <div className="answer-panel result-answer-panel">
+                <p>
+                  {evaluation.referenceAnswers?.[index] ||
+                    "No reference answer available."}
+                </p>
 
-                  <div className="answer-panel-heading">
-                    <span className="answer-label">
-                      Your answer
-                    </span>
-
-                    <span className="answer-status">
-                      ✓ Submitted
-                    </span>
-                  </div>
-
-                  <p>
-                    {interview.answers[index] ||
-                      "No answer provided."}
-                  </p>
-
-                  <div className="panel-actions">
-                    <SpeakButton
-                      text={
-                        interview.answers[index] ||
-                        "No answer provided."
-                      }
-                      label="Read Your Answer"
-                      compact
-                    />
-                  </div>
-
+                <div className="panel-actions">
+                  <SpeakButton
+                    text={
+                      evaluation.referenceAnswers?.[index] ||
+                      "No reference answer available."
+                    }
+                    label="Read Reference"
+                    compact
+                  />
                 </div>
-
-                {/* AI REFERENCE */}
-                <div className="answer-panel answer-panel--reference result-reference-panel">
-
-                  <div className="answer-panel-heading">
-                    <span className="answer-label">
-                      AI reference answer
-                    </span>
-
-                    <span className="ai-label">
-                      ✨ AI
-                    </span>
-                  </div>
-
-                  <p>
-                    {evaluation.referenceAnswers?.[
-                      index
-                    ] ||
-                      "No reference answer available."}
-                  </p>
-
-                  <div className="panel-actions">
-                    <SpeakButton
-                      text={
-                        evaluation.referenceAnswers?.[
-                          index
-                        ] ||
-                        "No reference answer available."
-                      }
-                      label="Read Reference"
-                      compact
-                    />
-                  </div>
-
-                </div>
-
-              </article>
-            )
-          )}
-
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </div>

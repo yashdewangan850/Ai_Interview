@@ -72,7 +72,6 @@ function Auth() {
   return (
     <div className="auth-shell auth-page-animated">
       <section className="card auth-card auth-card-animated">
-
         {/* Top Badge */}
         <div className="auth-badge">
           <span className="auth-badge-dot"></span>
@@ -128,10 +127,7 @@ function Auth() {
           >
             {/* Email */}
             <div className="form-group animated-field">
-              <label
-                className="field-label"
-                htmlFor="loginEmail"
-              >
+              <label className="field-label" htmlFor="loginEmail">
                 Email
               </label>
 
@@ -153,10 +149,7 @@ function Auth() {
 
             {/* Password */}
             <div className="form-group animated-field">
-              <label
-                className="field-label"
-                htmlFor="loginPassword"
-              >
+              <label className="field-label" htmlFor="loginPassword">
                 Password
               </label>
 
@@ -179,9 +172,7 @@ function Auth() {
               <div className="forgot-password">
                 <button
                   type="button"
-                  onClick={() =>
-                    navigate("/forgot-password")
-                  }
+                  onClick={() => navigate("/forgot-password")}
                 >
                   Forgot Password?
                 </button>
@@ -221,10 +212,7 @@ function Auth() {
           >
             {/* Full Name */}
             <div className="form-group animated-field">
-              <label
-                className="field-label"
-                htmlFor="signupName"
-              >
+              <label className="field-label" htmlFor="signupName">
                 Full name
               </label>
 
@@ -246,10 +234,7 @@ function Auth() {
 
             {/* Email */}
             <div className="form-group animated-field">
-              <label
-                className="field-label"
-                htmlFor="signupEmail"
-              >
+              <label className="field-label" htmlFor="signupEmail">
                 Email
               </label>
 
@@ -271,10 +256,7 @@ function Auth() {
 
             {/* Password */}
             <div className="form-group animated-field">
-              <label
-                className="field-label"
-                htmlFor="signupPassword"
-              >
+              <label className="field-label" htmlFor="signupPassword">
                 Password
               </label>
 
@@ -326,20 +308,14 @@ function Auth() {
           {mode === "login" ? (
             <>
               Don't have an account?{" "}
-              <button
-                type="button"
-                onClick={() => switchMode("signup")}
-              >
+              <button type="button" onClick={() => switchMode("signup")}>
                 Create one
               </button>
             </>
           ) : (
             <>
               Already have an account?{" "}
-              <button
-                type="button"
-                onClick={() => switchMode("login")}
-              >
+              <button type="button" onClick={() => switchMode("login")}>
                 Login
               </button>
             </>

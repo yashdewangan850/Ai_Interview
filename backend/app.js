@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "https://ai-interview-1-zjkp.onrender.com",
   })
 );
 app.use(express.json({ limit: "1mb" }));
@@ -30,7 +30,7 @@ app.get("/", (_req, res) => {
       "GET /api/interviews/:id",
       "GET /api/analytics",
     ],
-    frontend: process.env.CLIENT_URL || "http://localhost:5173",
+    frontend: process.env.CLIENT_URL || "https://ai-interview-1-zjkp.onrender.com",
   });
 });
 
