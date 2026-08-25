@@ -923,3 +923,24 @@ textarea {
     min-height: 150px;
   }
 }
+
+
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.forgot-password button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #ff7a18;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.forgot-password button:hover {
+  text-decoration: underline;
+}

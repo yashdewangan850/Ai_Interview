@@ -17,6 +17,7 @@ function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, login, signup } = useAuth();
+
   const [mode, setMode] = useState("login");
   const [loginForm, setLoginForm] = useState(LOGIN_FORM);
   const [signupForm, setSignupForm] = useState(SIGNUP_FORM);
@@ -63,11 +64,13 @@ function Auth() {
     <div className="auth-shell">
       <section className="card auth-card">
         <span className="eyebrow eyebrow--accent">Secure Access</span>
+
         <h1>
           {mode === "login"
             ? "Enter the interview command center"
             : "Create a professional practice account"}
         </h1>
+
         <p className="hero-copy">
           Your interviews, results, analytics, and reports are now tied to your
           personal account.
@@ -76,15 +79,26 @@ function Auth() {
         <div className="auth-toggle">
           <button
             type="button"
-            className={mode === "login" ? "primary-button" : "secondary-button"}
-            onClick={() => setMode("login")}
+            className={
+              mode === "login" ? "primary-button" : "secondary-button"
+            }
+            onClick={() => {
+              setMode("login");
+              setError("");
+            }}
           >
             Login
           </button>
+
           <button
             type="button"
-            className={mode === "signup" ? "primary-button" : "secondary-button"}
-            onClick={() => setMode("signup")}
+            className={
+              mode === "signup" ? "primary-button" : "secondary-button"
+            }
+            onClick={() => {
+              setMode("signup");
+              setError("");
+            }}
           >
             Sign Up
           </button>
@@ -92,10 +106,12 @@ function Auth() {
 
         {mode === "login" ? (
           <form className="form-grid" onSubmit={handleLogin}>
+            {/* Email */}
             <div className="form-group">
               <label className="field-label" htmlFor="loginEmail">
                 Email
               </label>
+
               <input
                 id="loginEmail"
                 className="text-input"
@@ -110,10 +126,13 @@ function Auth() {
                 required
               />
             </div>
+
+            {/* Password */}
             <div className="form-group">
               <label className="field-label" htmlFor="loginPassword">
                 Password
               </label>
+
               <input
                 id="loginPassword"
                 className="text-input"
@@ -127,18 +146,36 @@ function Auth() {
                 }
                 required
               />
+
+              {/* Forgot Password */}
+              <div className="forgot-password">
+                <button
+                  type="button"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot Password?
+                </button>
+              </div>
             </div>
+
             {error && <p className="error-text">{error}</p>}
-            <button className="primary-button" type="submit" disabled={loading}>
+
+            <button
+              className="primary-button"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Signing in..." : "Login"}
             </button>
           </form>
         ) : (
           <form className="form-grid" onSubmit={handleSignup}>
+            {/* Full Name */}
             <div className="form-group">
               <label className="field-label" htmlFor="signupName">
                 Full name
               </label>
+
               <input
                 id="signupName"
                 className="text-input"
@@ -153,10 +190,13 @@ function Auth() {
                 required
               />
             </div>
+
+            {/* Email */}
             <div className="form-group">
               <label className="field-label" htmlFor="signupEmail">
                 Email
               </label>
+
               <input
                 id="signupEmail"
                 className="text-input"
@@ -171,10 +211,13 @@ function Auth() {
                 required
               />
             </div>
+
+            {/* Password */}
             <div className="form-group">
               <label className="field-label" htmlFor="signupPassword">
                 Password
               </label>
+
               <input
                 id="signupPassword"
                 className="text-input"
@@ -189,8 +232,14 @@ function Auth() {
                 required
               />
             </div>
+
             {error && <p className="error-text">{error}</p>}
-            <button className="primary-button" type="submit" disabled={loading}>
+
+            <button
+              className="primary-button"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Creating account..." : "Create Account"}
             </button>
           </form>
