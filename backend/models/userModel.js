@@ -32,9 +32,11 @@ async function createUser({ name, email, password }) {
 
 async function findUserByEmail(email) {
   const db = await getDatabase();
-  const row = await db.get(`SELECT * FROM users WHERE email = ?`, [
-    email.trim().toLowerCase(),
-  ]);
+
+  const row = await db.get(
+    `SELECT * FROM users WHERE email = ?`,
+    [email.trim().toLowerCase()]
+  );
 
   return row
     ? {
@@ -46,7 +48,11 @@ async function findUserByEmail(email) {
 
 async function findUserById(id) {
   const db = await getDatabase();
-  const row = await db.get(`SELECT * FROM users WHERE id = ?`, [id]);
+
+  const row = await db.get(
+    `SELECT * FROM users WHERE id = ?`,
+    [id]
+  );
 
   return parseUser(row);
 }
@@ -58,7 +64,10 @@ async function verifyUserCredentials(email, password) {
     return null;
   }
 
-  const passwordMatches = await bcrypt.compare(password, user.passwordHash);
+  const passwordMatches = await bcrypt.compare(
+    password,
+    user.passwordHash
+  );
 
   if (!passwordMatches) {
     return null;
@@ -73,9 +82,89 @@ async function verifyUserCredentials(email, password) {
   };
 }
 
+// ==========================================
+// PASSWORD RESET
+// ==========================================
+
+async function createPasswordResetToken({
+  userId,
+  tokenHash,
+  expiresAt,
+}) {
+  const db = await getDatabase();
+
+  // Remove old reset tokens for this user
+  await db.run(
+    `DELETE FROM password_reset_tokens WHERE user_id = ?`,
+    [userId]
+  );
+
+  const result = await db.run(
+    `
+      INSERT INTO password_reset_tokens (
+        user_id,
+        token_hash,
+        expires_at
+      )
+      VALUES (?, ?, ?)
+    `,
+    [userId, tokenHash, expiresAt]
+  );
+
+  return result.lastID;
+}
+
+async function findPasswordResetToken(tokenHash) {
+  const db = await getDatabase();
+
+  const row = await db.get(
+    `
+      SELECT *
+      FROM password_reset_tokens
+      WHERE token_hash = ?
+        AND datetime(expires_at) > datetime('now')
+    `,
+    [tokenHash]
+  );
+
+  return row || null;
+}
+
+async function deletePasswordResetToken(tokenHash) {
+  const db = await getDatabase();
+
+  await db.run(
+    `
+      DELETE FROM password_reset_tokens
+      WHERE token_hash = ?
+    `,
+    [tokenHash]
+  );
+}
+
+async function updateUserPassword(userId, password) {
+  const db = await getDatabase();
+
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  await db.run(
+    `
+      UPDATE users
+      SET password_hash = ?
+      WHERE id = ?
+    `,
+    [passwordHash, userId]
+  );
+}
+
 module.exports = {
   createUser,
   findUserByEmail,
   findUserById,
   verifyUserCredentials,
+
+  createPasswordResetToken,
+  findPasswordResetToken,
+  deletePasswordResetToken,
+  updateUserPassword,
 };

@@ -42,6 +42,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", dailyQuizRoutes);
 app.use("/api", interviewRoutes);
 
+
 app.use((req, res) => {
   res.status(404).json({
     message: `Route ${req.method} ${req.originalUrl} not found.`,
