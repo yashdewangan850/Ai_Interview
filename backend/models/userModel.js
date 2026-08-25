@@ -37,7 +37,15 @@ async function findUserByEmail(email) {
     .trim()
     .toLowerCase();
 
-  console.log("Searching email:", normalizedEmail);
+  console.log("SEARCHING EMAIL:", normalizedEmail);
+
+  // Check all users
+  const allUsers = await db.all(`
+    SELECT id, name, email, role
+    FROM users
+  `);
+
+  console.log("ALL USERS IN BACKEND DATABASE:", allUsers);
 
   const row = await db.get(
     `
@@ -48,7 +56,7 @@ async function findUserByEmail(email) {
     [normalizedEmail]
   );
 
-  console.log("User found:", row);
+  console.log("USER FOUND:", row);
 
   return row
     ? {

@@ -5,6 +5,7 @@ const { open } = require("sqlite");
 
 const dataDirectory = path.join(__dirname, "..", "data");
 const databaseFile = path.join(dataDirectory, "interviews.db");
+console.log("USING DATABASE:", databaseFile);
 
 let dbPromise;
 

@@ -1007,3 +1007,1759 @@ textarea {
 .auth-back a:hover {
   text-decoration: underline;
 }
+
+.answer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.voice-button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #2563eb;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.voice-button:hover {
+  opacity: 0.9;
+}
+
+.voice-button.listening {
+  background: #dc2626;
+}
+
+.listening-status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* =========================================
+   ANIMATED NAVBAR
+========================================= */
+
+.navbar-animated {
+  animation: navbarSlideDown 0.6s ease-out;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+@keyframes navbarSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  background: linear-gradient(
+    135deg,
+    #ff7a18,
+    #ff4d00
+  );
+
+  color: white;
+
+  box-shadow:
+    0 0 0 rgba(255, 122, 24, 0),
+    0 8px 25px rgba(255, 122, 24, 0.22);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.brand-logo:hover .brand-mark {
+  transform: rotate(-6deg) scale(1.08);
+
+  box-shadow:
+    0 0 20px rgba(255, 122, 24, 0.35),
+    0 10px 30px rgba(255, 122, 24, 0.25);
+}
+
+.brand-text {
+  font-weight: 700;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.brand-logo:hover .brand-text {
+  transform: translateX(2px);
+}
+
+/* =========================================
+   NAV LINKS
+========================================= */
+
+.nav-link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding: 9px 4px;
+
+  color: inherit;
+  text-decoration: none;
+
+  font-weight: 600;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.nav-link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 2px;
+
+  width: 100%;
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: #ff7a18;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ff7a18;
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after,
+.nav-link-active::after {
+  transform: scaleX(1);
+}
+
+.nav-link-active {
+  color: #ff7a18;
+}
+
+/* =========================================
+   USER
+========================================= */
+
+.nav-user-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 5px 10px 5px 6px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  animation: userFadeIn 0.5s ease-out;
+}
+
+@keyframes userFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-avatar {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #ff7a18,
+    #ff4d00
+  );
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  box-shadow:
+    0 0 14px rgba(255, 122, 24, 0.25);
+}
+
+.nav-user {
+  max-width: 120px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================================
+   LOGOUT BUTTON
+========================================= */
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.logout-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(255, 122, 24, 0.15);
+}
+
+.logout-icon {
+  display: inline-block;
+
+  transition: transform 0.25s ease;
+}
+
+.logout-button:hover .logout-icon {
+  transform: translateX(3px);
+}
+
+/* =========================================
+   NAV ACTIONS
+========================================= */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 850px) {
+  .navbar__content {
+    gap: 15px;
+  }
+
+  .brand-text {
+    display: none;
+  }
+
+  .nav-actions {
+    gap: 12px;
+  }
+
+  .nav-user {
+    display: none;
+  }
+
+  .nav-user-wrapper {
+    padding: 4px;
+    border: none;
+    background: transparent;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar__content {
+    padding: 10px 14px;
+  }
+
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+  }
+
+  .logout-button span:last-child {
+    display: none;
+  }
+
+  .logout-button {
+    padding: 8px 10px;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* =========================================
+   HOME PAGE ANIMATIONS
+========================================= */
+
+.home-animated {
+  animation: pageFadeIn 0.7s ease-out;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.home-hero {
+  animation: heroEnter 0.8s ease-out;
+}
+
+@keyframes heroEnter {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-hero .hero-panel {
+  animation: heroTextEnter 0.9s ease-out;
+}
+
+@keyframes heroTextEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.home-hero .hero-side {
+  animation: heroSideEnter 1s ease-out;
+}
+
+@keyframes heroSideEnter {
+  from {
+    opacity: 0;
+    transform: translateX(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =========================================
+   HERO BUTTONS
+========================================= */
+
+.hero-actions .primary-button,
+.hero-actions .secondary-button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.hero-actions .primary-button:hover,
+.hero-actions .secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================================
+   SPOTLIGHT CARDS
+========================================= */
+
+.spotlight-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.spotlight-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   METRICS
+========================================= */
+
+.home-metrics {
+  animation: metricsEnter 0.9s ease-out;
+}
+
+@keyframes metricsEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-metrics .metric-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.home-metrics .metric-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   GENERAL CARDS
+========================================= */
+
+.home-card {
+  animation: cardEnter 0.8s ease-out both;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.18);
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   FORM INPUTS
+========================================= */
+
+.home-card .text-input {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.home-card .text-input:focus {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 3px rgba(255, 122, 24, 0.12);
+}
+
+/* =========================================
+   BUTTON ANIMATION
+========================================= */
+
+.home-card .primary-button,
+.home-card .secondary-button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.home-card .primary-button:hover,
+.home-card .secondary-button:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   INSIGHT ROW
+========================================= */
+
+.insight-row {
+  transition:
+    transform 0.25s ease,
+    padding-left 0.25s ease;
+}
+
+.insight-row:hover {
+  transform: translateX(5px);
+}
+
+/* =========================================
+   ACHIEVEMENTS
+========================================= */
+
+.achievement-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================
+   PRACTICE PLAN
+========================================= */
+
+.plan-step {
+  transition:
+    transform 0.25s ease,
+    padding-left 0.25s ease;
+}
+
+.plan-step:hover {
+  transform: translateX(5px);
+  padding-left: 14px;
+}
+
+/* =========================================
+   RECENT INTERVIEW
+========================================= */
+
+.session-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.session-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.session-card h3 {
+  transition: color 0.25s ease;
+}
+
+.session-card:hover h3 {
+  color: #ff7a18;
+}
+
+/* =========================================
+   SCORE CHIP
+========================================= */
+
+.score-chip {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.session-card:hover .score-chip {
+  transform: scale(1.05);
+}
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.danger-button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.danger-button:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.section-heading {
+  animation: headingFade 0.8s ease-out;
+}
+
+@keyframes headingFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .home-animated,
+  .home-hero,
+  .home-metrics,
+  .home-card,
+  .section-heading,
+  .hero-panel,
+  .hero-side {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+/* =====================================================
+   PREMIUM AUTH PAGE
+===================================================== */
+
+.auth-page-animated {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: authPageIn 0.8s ease-out;
+}
+
+/* =====================================================
+   MOVING BACKGROUND
+===================================================== */
+
+.auth-page-animated::before,
+.auth-page-animated::after {
+  content: "";
+  position: absolute;
+
+  width: 380px;
+  height: 380px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-page-animated::before {
+  top: -120px;
+  left: -100px;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 122, 24, 0.28),
+    transparent 68%
+  );
+
+  animation: floatingGlowOne 6s ease-in-out infinite;
+}
+
+.auth-page-animated::after {
+  right: -100px;
+  bottom: -120px;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 77, 0, 0.22),
+    transparent 68%
+  );
+
+  animation: floatingGlowTwo 7s ease-in-out infinite;
+}
+
+@keyframes floatingGlowOne {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(90px, 70px) scale(1.25);
+  }
+}
+
+@keyframes floatingGlowTwo {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-80px, -70px) scale(1.2);
+  }
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.auth-card-animated {
+  position: relative;
+  z-index: 2;
+
+  animation: cardDrop 0.9s cubic-bezier(
+    0.16,
+    1,
+    0.3,
+    1
+  );
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.auth-card-animated:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.28);
+}
+
+@keyframes cardDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.85) rotateX(10deg);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(8px) scale(1.02) rotateX(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+.auth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 9px 15px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 122, 24, 0.12);
+
+  color: #ff8a32;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  animation: badgePop 0.7s ease-out 0.5s both;
+}
+
+@keyframes badgePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  70% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.auth-badge-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #ff7a18;
+
+  animation: dotPulse 1.4s infinite;
+}
+
+@keyframes dotPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 122, 24, 0.6);
+  }
+
+  70% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 9px rgba(255, 122, 24, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 122, 24, 0);
+  }
+}
+
+/* =====================================================
+   HEADING
+===================================================== */
+
+.auth-heading {
+  animation: headingSlide 0.8s ease-out 0.25s both;
+}
+
+@keyframes headingSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+.auth-toggle-animated {
+  animation: toggleSlide 0.7s ease-out 0.4s both;
+}
+
+@keyframes toggleSlide {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-tab {
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.auth-tab:hover {
+  transform: translateY(-4px) scale(1.02);
+
+  box-shadow:
+    0 8px 22px rgba(255, 122, 24, 0.2);
+}
+
+.auth-tab:active {
+  transform: scale(0.96);
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.auth-form-enter {
+  animation: formSwitch 0.5s ease-out;
+}
+
+@keyframes formSwitch {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =====================================================
+   INPUT STAGGER
+===================================================== */
+
+.animated-field {
+  animation: fieldSlide 0.6s ease-out both;
+}
+
+.animated-field:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animated-field:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animated-field:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fieldSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =====================================================
+   INPUT EFFECT
+===================================================== */
+
+.auth-input {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.auth-input:hover {
+  transform: translateY(-2px);
+}
+
+.auth-input:focus {
+  transform: translateY(-3px) scale(1.01);
+
+  border-color: #ff7a18 !important;
+
+  box-shadow:
+    0 0 0 3px rgba(255, 122, 24, 0.15),
+    0 8px 25px rgba(255, 122, 24, 0.1);
+}
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+.forgot-password button {
+  position: relative;
+
+  border: none;
+  background: transparent;
+
+  color: #ff8a32;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.forgot-password button:hover {
+  color: #ffb06b;
+  transform: translateX(5px);
+}
+
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
+
+.auth-submit {
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.auth-submit::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 80%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+}
+
+.auth-submit:hover::before {
+  animation: buttonShine 0.7s ease;
+}
+
+@keyframes buttonShine {
+  from {
+    left: -120%;
+  }
+
+  to {
+    left: 140%;
+  }
+}
+
+.auth-submit:hover {
+  transform: translateY(-4px) scale(1.01);
+
+  box-shadow:
+    0 12px 30px rgba(255, 122, 24, 0.3);
+}
+
+.auth-submit:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* =====================================================
+   ARROW
+===================================================== */
+
+.button-arrow {
+  display: inline-block;
+
+  transition: transform 0.3s ease;
+}
+
+.auth-submit:hover .button-arrow {
+  transform: translateX(8px);
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.button-spinner {
+  width: 17px;
+  height: 17px;
+
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation: spinner 0.7s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.auth-error {
+  animation: errorAnimation 0.5s ease;
+}
+
+@keyframes errorAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  60% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.auth-footer {
+  animation: footerSlide 0.7s ease-out 0.7s both;
+}
+
+@keyframes footerSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-footer button {
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.auth-footer button:hover {
+  color: #ff8a32;
+  transform: translateX(3px);
+}
+
+/* =====================================================
+   PAGE FADE
+===================================================== */
+
+@keyframes authPageIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+  .auth-card-animated:hover {
+    transform: none;
+  }
+
+  .auth-heading h1 {
+    font-size: 30px;
+  }
+
+  .auth-page-animated::before {
+    width: 250px;
+    height: 250px;
+  }
+
+  .auth-page-animated::after {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+
+
+/* =========================================
+   RESULT PAGE
+========================================= */
+
+.result-page-animated {
+  animation: resultPageIn 0.7s ease-out;
+}
+
+@keyframes resultPageIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   RESULT HERO
+========================================= */
+
+.result-hero-animated {
+  animation: resultHeroEnter 0.8s
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes resultHeroEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-35px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.result-title {
+  animation: resultTitleEnter 0.7s ease-out 0.2s both;
+}
+
+@keyframes resultTitleEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =========================================
+   SCORE
+========================================= */
+
+.score-panel-animated {
+  animation: scorePop 0.9s
+    cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+@keyframes scorePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-12deg);
+  }
+
+  70% {
+    transform: scale(1.08) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.score-ring {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.score-ring:hover {
+  transform: scale(1.08);
+
+  box-shadow:
+    0 0 35px rgba(255, 122, 24, 0.25);
+}
+
+.score-value {
+  animation: scoreNumber 1s
+    cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+@keyframes scoreNumber {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================================
+   WARNING
+========================================= */
+
+.result-warning {
+  animation: warningSlide 0.6s ease-out;
+}
+
+@keyframes warningSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =========================================
+   RESULT CARDS
+========================================= */
+
+.result-card-animated {
+  animation: resultCardEnter 0.65s ease-out both;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.result-card-animated:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.result-card-animated:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.result-card-animated:nth-child(3) {
+  animation-delay: 0.26s;
+}
+
+.result-card-animated:nth-child(4) {
+  animation-delay: 0.34s;
+}
+
+.result-card-animated:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes resultCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   CARD ICON
+========================================= */
+
+.result-card-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: rgba(255, 122, 24, 0.1);
+
+  font-size: 21px;
+
+  margin-bottom: 14px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.result-info-card:hover .result-card-icon {
+  transform: rotate(-7deg) scale(1.1);
+
+  background: rgba(255, 122, 24, 0.17);
+}
+
+/* =========================================
+   LIST ITEMS
+========================================= */
+
+.result-list li {
+  transition:
+    transform 0.25s ease,
+    padding-left 0.25s ease;
+}
+
+.result-list li:hover {
+  transform: translateX(6px);
+  padding-left: 4px;
+}
+
+/* =========================================
+   ANSWER REVIEW
+========================================= */
+
+.answer-review-card {
+  animation-delay: 0.4s;
+}
+
+.review-item-animated {
+  animation: reviewEnter 0.6s ease-out both;
+}
+
+.review-item-animated:nth-child(1) {
+  animation-delay: 0.15s;
+}
+
+.review-item-animated:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.review-item-animated:nth-child(3) {
+  animation-delay: 0.35s;
+}
+
+.review-item-animated:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+@keyframes reviewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   QUESTION HEADER
+========================================= */
+
+.review-head {
+  transition:
+    transform 0.25s ease;
+}
+
+.review-item-animated:hover .review-head {
+  transform: translateX(4px);
+}
+
+.question-number {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 40px;
+  height: 32px;
+
+  padding: 0 10px;
+
+  border-radius: 8px;
+
+  background: rgba(255, 122, 24, 0.12);
+
+  color: #ff8a32;
+
+  font-weight: 800;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.review-item-animated:hover .question-number {
+  transform: scale(1.08);
+
+  background: rgba(255, 122, 24, 0.2);
+}
+
+/* =========================================
+   ANSWER PANELS
+========================================= */
+
+.result-answer-panel,
+.result-reference-panel {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.result-answer-panel:hover,
+.result-reference-panel:hover {
+  transform: translateX(5px);
+}
+
+/* =========================================
+   AI REFERENCE
+========================================= */
+
+.result-reference-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.result-reference-panel::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background: #ff7a18;
+
+  transform: scaleY(0);
+
+  transform-origin: top;
+
+  transition: transform 0.35s ease;
+}
+
+.result-reference-panel:hover::before {
+  transform: scaleY(1);
+}
+
+.ai-label {
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 122, 24, 0.1);
+
+  color: #ff8a32;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* =========================================
+   SUBMITTED STATUS
+========================================= */
+
+.answer-status {
+  color: #4ade80;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.result-action-button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.result-action-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 25px rgba(255, 122, 24, 0.2);
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.result-loading {
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+
+  animation: resultPageIn 0.5s ease-out;
+}
+
+.result-loader {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  border: 4px solid rgba(255, 122, 24, 0.15);
+
+  border-top-color: #ff7a18;
+
+  animation: resultSpin 0.8s linear infinite;
+}
+
+@keyframes resultSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   EMPTY RESULT
+========================================= */
+
+.result-empty {
+  text-align: center;
+
+  animation: emptyResultEnter 0.7s ease-out;
+}
+
+@keyframes emptyResultEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.empty-result-icon {
+  font-size: 50px;
+
+  animation: emptyIcon 1.5s ease-in-out infinite;
+}
+
+@keyframes emptyIcon {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.result-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  animation: errorResult 0.5s ease-out;
+}
+
+@keyframes errorResult {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  60% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+  .result-hero {
+    gap: 25px;
+  }
+
+  .result-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .result-action-button {
+    width: 100%;
+  }
+
+  .review-head {
+    flex-wrap: wrap;
+  }
+
+  .score-ring {
+    margin: auto;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .result-page-animated *,
+  .result-page-animated {
+    animation: none !important;
+    transition: none !important;
+  }
+}

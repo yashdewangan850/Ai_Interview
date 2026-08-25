@@ -5,7 +5,9 @@ import ThemeToggle from "./ThemeToggle";
 function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const { isAuthenticated, logout, user } = useAuth();
+
   const isHome = location.pathname === "/";
 
   function handleLogout() {
@@ -13,45 +15,101 @@ function Navbar() {
     navigate("/auth");
   }
 
+  function isActive(path) {
+    return location.pathname === path;
+  }
+
   return (
-    <header className="navbar">
+    <header className="navbar navbar-animated">
       <div className="navbar__content">
+        {/* BRAND */}
         <div className="brand-wrap">
-          <span className="brand-mark">AI</span>
-          <Link className="brand" to="/">
-            Interview Platform
+          <Link
+            className="brand-logo"
+            to="/"
+            aria-label="Interview Platform Home"
+          >
+            <span className="brand-mark">AI</span>
+
+            <span className="brand-text">
+              Interview Platform
+            </span>
           </Link>
         </div>
-        <div className="nav-actions">
+
+        {/* NAVIGATION */}
+        <nav className="nav-actions">
           <ThemeToggle />
+
           {isAuthenticated ? (
             <>
               {!isHome && (
-                <Link className="nav-link" to="/">
-                  New Interview
+                <Link
+                  className={`nav-link ${
+                    isActive("/") ? "nav-link-active" : ""
+                  }`}
+                  to="/"
+                >
+                  <span>New Interview</span>
                 </Link>
               )}
-              <Link className="nav-link" to="/daily-quiz">
-                Daily Quiz
+
+              <Link
+                className={`nav-link ${
+                  isActive("/daily-quiz")
+                    ? "nav-link-active"
+                    : ""
+                }`}
+                to="/daily-quiz"
+              >
+                <span>Daily Quiz</span>
               </Link>
-              <Link className="nav-link" to="/analytics">
-                Analytics
+
+              <Link
+                className={`nav-link ${
+                  isActive("/analytics")
+                    ? "nav-link-active"
+                    : ""
+                }`}
+                to="/analytics"
+              >
+                <span>Analytics</span>
               </Link>
-              <span className="nav-user">{user?.name}</span>
+
+              {/* USER */}
+              <div className="nav-user-wrapper">
+                <div className="nav-avatar">
+                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                </div>
+
+                <span className="nav-user">
+                  {user?.name}
+                </span>
+              </div>
+
+              {/* LOGOUT */}
               <button
-                className="secondary-button nav-button"
+                className="secondary-button nav-button logout-button"
                 type="button"
                 onClick={handleLogout}
               >
-                Logout
+                <span className="logout-icon">↪</span>
+                <span>Logout</span>
               </button>
             </>
           ) : (
-            <Link className="nav-link" to="/auth">
+            <Link
+              className={`nav-link ${
+                isActive("/auth")
+                  ? "nav-link-active"
+                  : ""
+              }`}
+              to="/auth"
+            >
               Login
             </Link>
           )}
-        </div>
+        </nav>
       </div>
     </header>
   );

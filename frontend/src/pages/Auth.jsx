@@ -16,11 +16,13 @@ const SIGNUP_FORM = {
 function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const { isAuthenticated, login, signup } = useAuth();
 
   const [mode, setMode] = useState("login");
   const [loginForm, setLoginForm] = useState(LOGIN_FORM);
   const [signupForm, setSignupForm] = useState(SIGNUP_FORM);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -30,8 +32,14 @@ function Auth() {
 
   const redirectTo = location.state?.from || "/";
 
+  function switchMode(nextMode) {
+    setMode(nextMode);
+    setError("");
+  }
+
   async function handleLogin(event) {
     event.preventDefault();
+
     setLoading(true);
     setError("");
 
@@ -47,6 +55,7 @@ function Auth() {
 
   async function handleSignup(event) {
     event.preventDefault();
+
     setLoading(true);
     setError("");
 
@@ -61,31 +70,39 @@ function Auth() {
   }
 
   return (
-    <div className="auth-shell">
-      <section className="card auth-card">
-        <span className="eyebrow eyebrow--accent">Secure Access</span>
+    <div className="auth-shell auth-page-animated">
+      <section className="card auth-card auth-card-animated">
 
-        <h1>
-          {mode === "login"
-            ? "Enter the interview command center"
-            : "Create a professional practice account"}
-        </h1>
+        {/* Top Badge */}
+        <div className="auth-badge">
+          <span className="auth-badge-dot"></span>
+          Secure Access
+        </div>
 
-        <p className="hero-copy">
-          Your interviews, results, analytics, and reports are now tied to your
-          personal account.
-        </p>
+        {/* Heading */}
+        <div className="auth-heading">
+          <h1>
+            {mode === "login"
+              ? "Enter the interview command center"
+              : "Create a professional practice account"}
+          </h1>
 
-        <div className="auth-toggle">
+          <p className="hero-copy">
+            Your interviews, results, analytics, and reports are now tied to
+            your personal account.
+          </p>
+        </div>
+
+        {/* Login / Signup Toggle */}
+        <div className="auth-toggle auth-toggle-animated">
           <button
             type="button"
             className={
-              mode === "login" ? "primary-button" : "secondary-button"
+              mode === "login"
+                ? "primary-button auth-tab active"
+                : "secondary-button auth-tab"
             }
-            onClick={() => {
-              setMode("login");
-              setError("");
-            }}
+            onClick={() => switchMode("login")}
           >
             Login
           </button>
@@ -93,29 +110,36 @@ function Auth() {
           <button
             type="button"
             className={
-              mode === "signup" ? "primary-button" : "secondary-button"
+              mode === "signup"
+                ? "primary-button auth-tab active"
+                : "secondary-button auth-tab"
             }
-            onClick={() => {
-              setMode("signup");
-              setError("");
-            }}
+            onClick={() => switchMode("signup")}
           >
             Sign Up
           </button>
         </div>
 
+        {/* LOGIN */}
         {mode === "login" ? (
-          <form className="form-grid" onSubmit={handleLogin}>
+          <form
+            className="form-grid auth-form auth-form-enter"
+            onSubmit={handleLogin}
+          >
             {/* Email */}
-            <div className="form-group">
-              <label className="field-label" htmlFor="loginEmail">
+            <div className="form-group animated-field">
+              <label
+                className="field-label"
+                htmlFor="loginEmail"
+              >
                 Email
               </label>
 
               <input
                 id="loginEmail"
-                className="text-input"
+                className="text-input auth-input"
                 type="email"
+                placeholder="Enter your email"
                 value={loginForm.email}
                 onChange={(event) =>
                   setLoginForm((current) => ({
@@ -128,15 +152,19 @@ function Auth() {
             </div>
 
             {/* Password */}
-            <div className="form-group">
-              <label className="field-label" htmlFor="loginPassword">
+            <div className="form-group animated-field">
+              <label
+                className="field-label"
+                htmlFor="loginPassword"
+              >
                 Password
               </label>
 
               <input
                 id="loginPassword"
-                className="text-input"
+                className="text-input auth-input"
                 type="password"
+                placeholder="Enter your password"
                 value={loginForm.password}
                 onChange={(event) =>
                   setLoginForm((current) => ({
@@ -151,35 +179,60 @@ function Auth() {
               <div className="forgot-password">
                 <button
                   type="button"
-                  onClick={() => navigate("/forgot-password")}
+                  onClick={() =>
+                    navigate("/forgot-password")
+                  }
                 >
                   Forgot Password?
                 </button>
               </div>
             </div>
 
-            {error && <p className="error-text">{error}</p>}
+            {error && (
+              <div className="auth-error">
+                <span>⚠</span>
+                {error}
+              </div>
+            )}
 
             <button
-              className="primary-button"
+              className="primary-button auth-submit"
               type="submit"
               disabled={loading}
             >
-              {loading ? "Signing in..." : "Login"}
+              {loading ? (
+                <>
+                  <span className="button-spinner"></span>
+                  Signing in...
+                </>
+              ) : (
+                <>
+                  Login
+                  <span className="button-arrow">→</span>
+                </>
+              )}
             </button>
           </form>
         ) : (
-          <form className="form-grid" onSubmit={handleSignup}>
+          /* SIGNUP */
+          <form
+            className="form-grid auth-form auth-form-enter"
+            onSubmit={handleSignup}
+          >
             {/* Full Name */}
-            <div className="form-group">
-              <label className="field-label" htmlFor="signupName">
+            <div className="form-group animated-field">
+              <label
+                className="field-label"
+                htmlFor="signupName"
+              >
                 Full name
               </label>
 
               <input
                 id="signupName"
-                className="text-input"
+                className="text-input auth-input"
                 type="text"
+                placeholder="Enter your full name"
                 value={signupForm.name}
                 onChange={(event) =>
                   setSignupForm((current) => ({
@@ -192,15 +245,19 @@ function Auth() {
             </div>
 
             {/* Email */}
-            <div className="form-group">
-              <label className="field-label" htmlFor="signupEmail">
+            <div className="form-group animated-field">
+              <label
+                className="field-label"
+                htmlFor="signupEmail"
+              >
                 Email
               </label>
 
               <input
                 id="signupEmail"
-                className="text-input"
+                className="text-input auth-input"
                 type="email"
+                placeholder="Enter your email"
                 value={signupForm.email}
                 onChange={(event) =>
                   setSignupForm((current) => ({
@@ -213,15 +270,19 @@ function Auth() {
             </div>
 
             {/* Password */}
-            <div className="form-group">
-              <label className="field-label" htmlFor="signupPassword">
+            <div className="form-group animated-field">
+              <label
+                className="field-label"
+                htmlFor="signupPassword"
+              >
                 Password
               </label>
 
               <input
                 id="signupPassword"
-                className="text-input"
+                className="text-input auth-input"
                 type="password"
+                placeholder="Create a password"
                 value={signupForm.password}
                 onChange={(event) =>
                   setSignupForm((current) => ({
@@ -233,17 +294,57 @@ function Auth() {
               />
             </div>
 
-            {error && <p className="error-text">{error}</p>}
+            {error && (
+              <div className="auth-error">
+                <span>⚠</span>
+                {error}
+              </div>
+            )}
 
             <button
-              className="primary-button"
+              className="primary-button auth-submit"
               type="submit"
               disabled={loading}
             >
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? (
+                <>
+                  <span className="button-spinner"></span>
+                  Creating account...
+                </>
+              ) : (
+                <>
+                  Create Account
+                  <span className="button-arrow">→</span>
+                </>
+              )}
             </button>
           </form>
         )}
+
+        {/* Bottom text */}
+        <div className="auth-footer">
+          {mode === "login" ? (
+            <>
+              Don't have an account?{" "}
+              <button
+                type="button"
+                onClick={() => switchMode("signup")}
+              >
+                Create one
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={() => switchMode("login")}
+              >
+                Login
+              </button>
+            </>
+          )}
+        </div>
       </section>
     </div>
   );

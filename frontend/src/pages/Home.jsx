@@ -120,8 +120,8 @@ function Home() {
   );
 
   return (
-    <div className="dashboard-stack">
-      <section className="hero hero--command">
+    <div className="dashboard-stack home-animated">
+      <section className="hero hero--command home-hero">
         <div className="hero-panel">
           <div className="eyebrow eyebrow--accent">Professional Interview Lab</div>
           <h1>
@@ -162,7 +162,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="metrics-band">
+      <section className="metrics-band home-metrics">
         <article className="metric-card metric-card--featured">
           <span className="metric-label">Average Score</span>
           <span className="metric-value">{analytics?.totals?.averageScore ?? 0}</span>
@@ -186,7 +186,7 @@ function Home() {
       </section>
 
       <div className="major-layout">
-        <section className="card form-card">
+        <section className="card form-card home-card">
           <div className="section-heading">
             <div>
               <span className="eyebrow eyebrow--accent">Launch Interview</span>
@@ -321,7 +321,7 @@ function Home() {
         </section>
 
         <aside className="side-column">
-          <section className="card insights-card">
+          <section className="card insights-card home-card">
             <div className="section-heading">
               <div>
                 <span className="eyebrow eyebrow--accent">Advanced Feature</span>
@@ -367,7 +367,7 @@ function Home() {
             </div>
           </section>
 
-          <section className="card dashboard-card dashboard-card--elevated">
+          <section className="card dashboard-card dashboard-card--elevated home-card">
             <div className="section-heading">
               <div>
                 <span className="eyebrow eyebrow--accent">Daily Quiz</span>
