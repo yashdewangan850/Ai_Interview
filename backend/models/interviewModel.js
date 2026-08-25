@@ -89,7 +89,7 @@ async function initializeDatabase() {
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
-  await db.exec(`
+ await db.exec(`
   CREATE TABLE IF NOT EXISTS password_reset_tokens (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -99,7 +99,6 @@ async function initializeDatabase() {
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
   )
 `);
-
   await ensureInterviewColumn("user_id", "INTEGER");
   await ensureInterviewColumn("category", "TEXT NOT NULL DEFAULT 'technical'");
   await ensureInterviewColumn("timer_minutes", "INTEGER NOT NULL DEFAULT 15");

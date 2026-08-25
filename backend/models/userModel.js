@@ -93,7 +93,6 @@ async function createPasswordResetToken({
 }) {
   const db = await getDatabase();
 
-  // Remove old reset tokens for this user
   await db.run(
     `DELETE FROM password_reset_tokens WHERE user_id = ?`,
     [userId]
@@ -162,7 +161,6 @@ module.exports = {
   findUserByEmail,
   findUserById,
   verifyUserCredentials,
-
   createPasswordResetToken,
   findPasswordResetToken,
   deletePasswordResetToken,
