@@ -1,4 +1,3 @@
-
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
@@ -26,7 +25,7 @@ function signToken(user) {
       role: user.role,
     },
     process.env.JWT_SECRET || "replace_with_a_long_secret",
-    { expiresIn: "7d" },
+    { expiresIn: "7d" }
   );
 }
 
@@ -54,7 +53,12 @@ async function signup(req, res, next) {
       throw createError("An account with this email already exists.");
     }
 
-    const user = await createUser({ name, email, password });
+    const user = await createUser({
+      name,
+      email,
+      password,
+    });
+
     const token = signToken(user);
 
     res.status(201).json({
@@ -98,9 +102,9 @@ function me(req, res) {
   res.json({ user: req.user });
 }
 
-// ===============================
+// ==========================================
 // FORGOT PASSWORD
-// ===============================
+// ==========================================
 
 async function forgotPassword(req, res, next) {
   try {
@@ -114,47 +118,58 @@ async function forgotPassword(req, res, next) {
 
     if (!user) {
       return res.json({
-  message: "Password reset link generated successfully.",
-  resetUrl: resetUrl,
-});
+        message:
+          "If an account exists with this email, a password reset link has been generated.",
+      });
     }
 
+    // Generate secure reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
 
+    // Hash token before storing it in database
     const tokenHash = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
 
+    // Token expires after 15 minutes
     const expiresAt = new Date(
       Date.now() + 15 * 60 * 1000
     ).toISOString();
 
+    // Save token in database
     await createPasswordResetToken({
       userId: user.id,
       tokenHash,
       expiresAt,
     });
 
-    const resetUrl =
-      `${process.env.FRONTEND_URL || "http://localhost:5173"}/reset-password/${resetToken}`;
+    // Create reset URL
+    const frontendUrl =
+      process.env.FRONTEND_URL || "http://localhost:5173";
 
+    const resetUrl =
+      `${frontendUrl}/reset-password/${resetToken}`;
+
+    // Development/testing
     console.log("=================================");
     console.log("PASSWORD RESET URL:");
     console.log(resetUrl);
     console.log("=================================");
 
+    // Send reset URL to frontend
     return res.json({
       message: "Password reset link generated successfully.",
-      resetUrl: resetUrl,
+      resetUrl,
     });
   } catch (error) {
     next(error);
   }
 }
-// ===============================
+
+// ==========================================
 // RESET PASSWORD
-// ===============================
+// ==========================================
 
 async function resetPassword(req, res, next) {
   try {
@@ -166,27 +181,40 @@ async function resetPassword(req, res, next) {
     }
 
     if (password.length < 6) {
-      throw createError("Password must be at least 6 characters long.");
+      throw createError(
+        "Password must be at least 6 characters long."
+      );
     }
 
     // Hash received token
-    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
 
-    // Find valid, non-expired token
-    const resetRecord = await findPasswordResetToken(tokenHash);
+    // Find valid and non-expired token
+    const resetRecord =
+      await findPasswordResetToken(tokenHash);
 
     if (!resetRecord) {
-      throw createError("Invalid or expired password reset link.", 400);
+      throw createError(
+        "Invalid or expired password reset link.",
+        400
+      );
     }
 
     // Update password
-    await updateUserPassword(resetRecord.user_id, password);
+    await updateUserPassword(
+      resetRecord.user_id,
+      password
+    );
 
-    // Token can only be used once
+    // Delete token so it cannot be reused
     await deletePasswordResetToken(tokenHash);
 
-    res.json({
-      message: "Password reset successfully. You can now login.",
+    return res.json({
+      message:
+        "Password reset successfully. You can now login.",
     });
   } catch (error) {
     next(error);
