@@ -19,8 +19,15 @@ function ResetPassword() {
     setError("");
     setMessage("");
 
+    if (!token) {
+      setError("Invalid password reset link.");
+      return;
+    }
+
     if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+      setError(
+        "Password must be at least 6 characters long."
+      );
       return;
     }
 
@@ -29,33 +36,35 @@ function ResetPassword() {
       return;
     }
 
-    if (!token) {
-      setError("Invalid or missing reset token.");
-      return;
-    }
-
-    setLoading(true);
-
     try {
-      const data = await apiRequest("/auth/reset-password", {
-        method: "POST",
-        body: JSON.stringify({
-          token,
-          password,
-        }),
-      });
+      setLoading(true);
 
-      setMessage(
-        data.message || "Password reset successfully."
+      const data = await apiRequest(
+        "/auth/reset-password",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            token,
+            password,
+          }),
+        }
       );
 
+      setMessage(
+        data.message ||
+          "Password reset successfully."
+      );
+
+      // Login page par redirect
       setTimeout(() => {
-        navigate("/auth", { replace: true });
+        navigate("/auth", {
+          replace: true,
+        });
       }, 1500);
     } catch (requestError) {
       setError(
         requestError.message ||
-          "Unable to reset password. Please try again."
+          "Unable to reset password."
       );
     } finally {
       setLoading(false);
@@ -72,10 +81,13 @@ function ResetPassword() {
         <h1>Create a new password</h1>
 
         <p className="hero-copy">
-          Enter a new password for your account.
+          Enter your new password below.
         </p>
 
-        <form className="form-grid" onSubmit={handleSubmit}>
+        <form
+          className="form-grid"
+          onSubmit={handleSubmit}
+        >
           <div className="form-group">
             <label
               className="field-label"
@@ -93,8 +105,8 @@ function ResetPassword() {
               onChange={(event) =>
                 setPassword(event.target.value)
               }
-              minLength={6}
               required
+              minLength={6}
             />
           </div>
 
@@ -115,8 +127,8 @@ function ResetPassword() {
               onChange={(event) =>
                 setConfirmPassword(event.target.value)
               }
-              minLength={6}
               required
+              minLength={6}
             />
           </div>
 
@@ -138,7 +150,7 @@ function ResetPassword() {
             disabled={loading}
           >
             {loading
-              ? "Resetting..."
+              ? "Updating Password..."
               : "Reset Password"}
           </button>
         </form>

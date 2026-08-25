@@ -7,42 +7,38 @@ function ForgotPassword() {
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     setLoading(true);
-    setMessage("");
     setError("");
 
     try {
       const data = await apiRequest("/auth/forgot-password", {
         method: "POST",
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+        }),
       });
 
-      // Backend se reset URL mila
-      if (data.resetUrl) {
-        const resetUrl = new URL(data.resetUrl);
+      console.log("Forgot password response:", data);
 
-        // Direct Reset Password page par jao
-        navigate(
-          `${resetUrl.pathname}${resetUrl.search}${resetUrl.hash}`
-        );
-
-        return;
+      if (!data.resetUrl) {
+        throw new Error("Reset link was not generated.");
       }
 
-      setMessage(
-        data.message ||
-          "Password reset link generated successfully."
-      );
+      // Backend se milne wale URL ko extract karo
+      const resetUrl = new URL(data.resetUrl);
+
+      // Direct Reset Password page open karo
+      navigate(resetUrl.pathname);
     } catch (requestError) {
+      console.error(requestError);
       setError(
         requestError.message ||
-          "Unable to generate reset link."
+          "Unable to generate password reset link."
       );
     } finally {
       setLoading(false);
@@ -90,18 +86,14 @@ function ForgotPassword() {
             </p>
           )}
 
-          {message && (
-            <p className="success-text">
-              {message}
-            </p>
-          )}
-
           <button
             className="primary-button"
             type="submit"
             disabled={loading}
           >
-            {loading ? "Generating..." : "Send Reset Link"}
+            {loading
+              ? "Generating..."
+              : "Send Reset Link"}
           </button>
         </form>
 

@@ -117,48 +117,39 @@ async function forgotPassword(req, res, next) {
     const user = await findUserByEmail(email);
 
     if (!user) {
-      return res.json({
-        message:
-          "If an account exists with this email, a password reset link has been generated.",
-      });
+      throw createError("No account found with this email.", 404);
     }
 
-    // Generate secure reset token
+    // Generate secure token
     const resetToken = crypto.randomBytes(32).toString("hex");
 
-    // Hash token before storing it in database
+    // Hash token before saving
     const tokenHash = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
 
-    // Token expires after 15 minutes
+    // Token valid for 15 minutes
     const expiresAt = new Date(
       Date.now() + 15 * 60 * 1000
     ).toISOString();
 
-    // Save token in database
+    // Save token
     await createPasswordResetToken({
       userId: user.id,
       tokenHash,
       expiresAt,
     });
 
-    // Create reset URL
     const frontendUrl =
       process.env.FRONTEND_URL || "http://localhost:5173";
 
     const resetUrl =
       `${frontendUrl}/reset-password/${resetToken}`;
 
-    // Development/testing
-    console.log("=================================");
-    console.log("PASSWORD RESET URL:");
-    console.log(resetUrl);
-    console.log("=================================");
+    console.log("RESET URL:", resetUrl);
 
-    // Send reset URL to frontend
-    return res.json({
+    return res.status(200).json({
       message: "Password reset link generated successfully.",
       resetUrl,
     });
