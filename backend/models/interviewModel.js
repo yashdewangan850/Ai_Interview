@@ -50,7 +50,9 @@ async function ensureInterviewColumn(columnName, definition) {
   const hasColumn = columns.some((column) => column.name === columnName);
 
   if (!hasColumn) {
-    await db.exec(`ALTER TABLE interviews ADD COLUMN ${columnName} ${definition}`);
+    await db.exec(
+      `ALTER TABLE interviews ADD COLUMN ${columnName} ${definition}`,
+    );
   }
 }
 
@@ -87,6 +89,16 @@ async function initializeDatabase() {
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
+  await db.exec(`
+  CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    token_hash TEXT NOT NULL UNIQUE,
+    expires_at TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  )
+`);
 
   await ensureInterviewColumn("user_id", "INTEGER");
   await ensureInterviewColumn("category", "TEXT NOT NULL DEFAULT 'technical'");
@@ -129,7 +141,7 @@ async function createInterview({
       timerMinutes,
       JSON.stringify(questions),
       JSON.stringify(metadata),
-    ]
+    ],
   );
 
   return findInterviewById(result.lastID, userId);
@@ -170,7 +182,7 @@ async function updateInterviewSubmission(id, userId, { answers, evaluation }) {
       JSON.stringify(nextMetadata),
       id,
       userId,
-    ]
+    ],
   );
 
   return findInterviewById(id, userId);
@@ -185,13 +197,18 @@ async function listRecentInterviews(userId, limit = 6) {
       ORDER BY datetime(updated_at) DESC, id DESC
       LIMIT ?
     `,
-    [userId, limit]
+    [userId, limit],
   );
 
   return rows.map(parseInterview);
 }
 
-async function listRecentQuestionsByTopic(userId, topic, difficulty, limit = 20) {
+async function listRecentQuestionsByTopic(
+  userId,
+  topic,
+  difficulty,
+  limit = 20,
+) {
   const db = await getDatabase();
   const rows = await db.all(
     `
@@ -203,7 +220,7 @@ async function listRecentQuestionsByTopic(userId, topic, difficulty, limit = 20)
       ORDER BY datetime(updated_at) DESC, id DESC
       LIMIT ?
     `,
-    [userId, topic, difficulty, limit]
+    [userId, topic, difficulty, limit],
   );
 
   return rows.flatMap((row) => JSON.parse(row.questions || "[]"));
@@ -213,7 +230,7 @@ async function deleteInterviewById(id, userId) {
   const db = await getDatabase();
   const result = await db.run(
     `DELETE FROM interviews WHERE id = ? AND user_id = ?`,
-    [id, userId]
+    [id, userId],
   );
 
   return result.changes > 0;
@@ -227,16 +244,20 @@ async function getInterviewAnalytics(userId) {
       WHERE user_id = ?
       ORDER BY datetime(updated_at) DESC, id DESC
     `,
-    [userId]
+    [userId],
   );
 
   const interviews = rows.map(parseInterview);
   const completed = interviews.filter((item) => item.status === "completed");
-  const scored = completed.filter((item) => Number.isFinite(item.evaluation?.score));
+  const scored = completed.filter((item) =>
+    Number.isFinite(item.evaluation?.score),
+  );
   const averageScore = scored.length
     ? Math.round(
-        scored.reduce((total, item) => total + Number(item.evaluation.score || 0), 0) /
-          scored.length
+        scored.reduce(
+          (total, item) => total + Number(item.evaluation.score || 0),
+          0,
+        ) / scored.length,
       )
     : 0;
 
@@ -286,12 +307,15 @@ async function getInterviewAnalytics(userId) {
     .sort((left, right) => right.averageScore - left.averageScore)
     .slice(0, 3);
 
-  const recentScores = scored.slice(0, 5).reverse().map((item) => ({
-    id: item.id,
-    topic: item.topic,
-    score: item.evaluation.score,
-    category: item.category,
-  }));
+  const recentScores = scored
+    .slice(0, 5)
+    .reverse()
+    .map((item) => ({
+      id: item.id,
+      topic: item.topic,
+      score: item.evaluation.score,
+      category: item.category,
+    }));
 
   let streakDays = 0;
   const cursor = new Date();
