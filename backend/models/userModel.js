@@ -33,10 +33,22 @@ async function createUser({ name, email, password }) {
 async function findUserByEmail(email) {
   const db = await getDatabase();
 
+  const normalizedEmail = String(email)
+    .trim()
+    .toLowerCase();
+
+  console.log("Searching email:", normalizedEmail);
+
   const row = await db.get(
-    `SELECT * FROM users WHERE email = ?`,
-    [email.trim().toLowerCase()]
+    `
+      SELECT *
+      FROM users
+      WHERE LOWER(TRIM(email)) = ?
+    `,
+    [normalizedEmail]
   );
+
+  console.log("User found:", row);
 
   return row
     ? {
